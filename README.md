@@ -1,0 +1,2 @@
+# VoxelProject
+An ongoing exercise in which I practice my c++ development, data management, organization, optimization, documentation and 3d graphics skills. The project is to code a 3d space divided into an array of cubes (a voxel), in which the attributes of this voxel data structure can be changed to display specific patterns or animations. The program will include user interactivity, in which they can view, zoom, rotate the 3d space.  
