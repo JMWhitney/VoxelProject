@@ -1,7 +1,6 @@
 #include <iostream>
-#include <math.h>
-#include <GL/glut.h>
 #include <stdio.h>
+#include "map.h"
 //#include <thread>
 //#include <chrono>
 
@@ -22,7 +21,7 @@
 
 using namespace std;
 
-    int cx = 0, cy = 0, cz = 0;
+    int cx = -13, cy = 0, cz = -45;
     int dx = 0, dy = 0, dz = 0;
     float zf = 1;
     int cn, ln;
@@ -31,9 +30,10 @@ using namespace std;
 
     bool pause = false;
     float length = 1;
-    const int R = 20;
+    const int R = 10;
 
 bool voxel[R][R][R];
+map heightMap(128,128,20,-20);
 
 void initVoxel()
 {
@@ -45,17 +45,14 @@ void initVoxel()
         }
     }
 }
-void animateVoxel2(int)
-{
-    initVoxel();
 
-    for(int i=0; i<R ; i++){
-        for(int k=0; k<R ; k++){
-        }
-   }
+void animateMap(int)
+{
+    heightMap.animate();
     glutPostRedisplay();
-   // glutTimerFunc(100, animateVoxel,0);
+    glutTimerFunc(17,animateMap,0);
 }
+
 void animateVoxel(int)
 {
     static bool ascending = true;
@@ -85,6 +82,7 @@ void animateVoxel(int)
     glutPostRedisplay();
     if(!pause) {glutTimerFunc(100, animateVoxel,0);}
 }
+
 void drawVoxel()
 {
     for(int i = 0; i < R; i++) {
@@ -124,22 +122,22 @@ void display()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
 
-    glTranslatef(-13,0,-45);
-    glRotatef(45,1,1,0);
+    glTranslatef(cx,cy,cz);
+    glRotatef(60,1,1,0);
     glTranslatef(10,0,10);
     glRotatef(theta,0,1,0);
     glScalef(zf, zf, zf);
     glTranslatef(-10,0,-10);
 
 
-    drawGrid();
-    drawVoxel();
+    //drawGrid();
+    heightMap.draw();
+    //drawVoxel();
     glutSwapBuffers();
 }
 
 void init()
 {
-    initVoxel();
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     gluPerspective(35,1.0f,0.1f,1000);
@@ -150,9 +148,9 @@ void init()
 
 void keyboard(unsigned char key, int x, int y)
 {
-    if(key=='w'){cz-=1;} if(key=='s'){cz+=1;}
-    if(key=='a'){cx-=1;} if(key=='d'){cx+=1;}
-    if(key=='q'){cy+=1;} if(key=='z'){cy-=1;}
+    if(key=='w'){cz+=1;} if(key=='s'){cz-=1;}
+    if(key=='a'){cx+=1;} if(key=='d'){cx-=1;}
+    if(key=='q'){cy-=1;} if(key=='z'){cy+=1;}
     if(key=='.'){theta+=2;}
     if(key==','){theta-=2;}
     if(key=='p' && !pause){pause=true;}
@@ -198,7 +196,7 @@ int main(int argc, char** argv)
     glutDisplayFunc(display);
     glutMouseFunc(mouse);
     glutKeyboardFunc(keyboard);
-    glutTimerFunc(100,animateVoxel,0);
+    glutTimerFunc(1,animateMap,0);
     init();
 
     glutMainLoop();
