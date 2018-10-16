@@ -43,6 +43,8 @@
 			<Add directory="C:/Program Files (x86)/CodeBlocks/MinGW/lib" />
 		</Linker>
 		<Unit filename="GLmain.cpp" />
+		<Unit filename="map.cpp" />
+		<Unit filename="map.h" />
 		<Unit filename="voxel.cpp" />
 		<Unit filename="voxel.h" />
 		<Extensions>

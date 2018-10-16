@@ -6,9 +6,10 @@
 class map
 {
     public:
-        map(unsigned int length, unsigned int width, int maxHeight, int minHeight);
+        map(int length, int width, int maxHeight, int minHeight);
         void init(void);
-        void draw(void);
+        void drawLines(void);
+        void drawCubes(void);
         void animate(void);
         ~map(void);
 
@@ -16,8 +17,8 @@ class map
 
     private:
 
-        unsigned int length;
-        unsigned int width;
+        int length;
+        int width;
         int maxHeight;
         int minHeight;
         int size;

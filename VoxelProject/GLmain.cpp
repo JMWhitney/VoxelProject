@@ -1,8 +1,7 @@
 #include <iostream>
 #include <stdio.h>
 #include "map.h"
-//#include <thread>
-//#include <chrono>
+
 
 /*******************To Do List ******************
     > separate objects into their own class files
@@ -21,9 +20,10 @@
 
 using namespace std;
 
-    int cx = -13, cy = 0, cz = -45;
+    int cx = -14, cy = 11, cz = -32;
     int dx = 0, dy = 0, dz = 0;
-    float zf = 1;
+    int a = 45;
+    float zf = 0.185;
     int cn, ln;
     float theta = 0;
 
@@ -33,7 +33,7 @@ using namespace std;
     const int R = 10;
 
 bool voxel[R][R][R];
-map heightMap(128,128,20,-20);
+map heightMap(64,64,20,-20);
 
 void initVoxel()
 {
@@ -123,7 +123,7 @@ void display()
     glLoadIdentity();
 
     glTranslatef(cx,cy,cz);
-    glRotatef(60,1,1,0);
+    glRotatef(a,1,0,0);
     glTranslatef(10,0,10);
     glRotatef(theta,0,1,0);
     glScalef(zf, zf, zf);
@@ -131,7 +131,7 @@ void display()
 
 
     //drawGrid();
-    heightMap.draw();
+    heightMap.drawLines();
     //drawVoxel();
     glutSwapBuffers();
 }
@@ -143,7 +143,7 @@ void init()
     gluPerspective(35,1.0f,0.1f,1000);
     glMatrixMode(GL_MODELVIEW);
     glEnable(GL_DEPTH_TEST);
-    glClearColor(0.2,0.2,0.2,1);
+    glClearColor(0.0,0.0,0.0,1);
 }
 
 void keyboard(unsigned char key, int x, int y)
@@ -151,6 +151,7 @@ void keyboard(unsigned char key, int x, int y)
     if(key=='w'){cz+=1;} if(key=='s'){cz-=1;}
     if(key=='a'){cx+=1;} if(key=='d'){cx-=1;}
     if(key=='q'){cy-=1;} if(key=='z'){cy+=1;}
+    if(key=='e'){a+=5;} if(key=='c'){a-=5;}
     if(key=='.'){theta+=2;}
     if(key==','){theta-=2;}
     if(key=='p' && !pause){pause=true;}
