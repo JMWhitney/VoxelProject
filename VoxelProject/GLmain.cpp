@@ -1,32 +1,22 @@
 #include <iostream>
 #include <stdio.h>
 #include "map.h"
-
+#include "camera.h"
+#include <GL/freeglut.h>
+#include <GL/glu.h>
+#include <math.h>
 
 /*******************To Do List ******************
-    > separate objects into their own class files
-    > clean, organize, and document code
     > Create octree data structure to store voxel data
-    > commit version control to git with documentation of changes, problems, solutions, and lessons learned.
     > Optimize code.
     > Test different storage methods (data structures) for voxel data.
         To increase efficiency I want to be updating only the blocks of the voxel
         that I need to each frame loop.
     > Create a list of hard coded animations for the cube
-    > Increase user interactability (rotate, zoom, translate sceen using mouse)
     > Create a user interface? (select animation)
-
 ***********************************************/
 
 using namespace std;
-
-    int cx = -14, cy = 11, cz = -32;
-    int dx = 0, dy = 0, dz = 0;
-    int a = 45;
-    float zf = 0.185;
-    int cn, ln;
-    float theta = 0;
-
 
     bool pause = false;
     float length = 1;
@@ -34,23 +24,18 @@ using namespace std;
 
 bool voxel[R][R][R];
 map heightMap(64,64,20,-20);
+camera camera(-25 , 0 , -32 , 45 , 45 , 0 , 0.185);
+//vec3 color = vec3(1.0,1.0,1.0);
 
 void initVoxel()
 {
     for(int i = 0; i < R; i++) {
         for(int j = 0; j < R; j++) {
-            for(int k = 0; k < R; k++){
+            for(int k = 0; k < R; k++) {
                 voxel[i][j][k] = false;
             }
         }
     }
-}
-
-void animateMap(int)
-{
-    heightMap.animate();
-    glutPostRedisplay();
-    glutTimerFunc(17,animateMap,0);
 }
 
 void animateVoxel(int)
@@ -117,19 +102,38 @@ void drawGrid()
         glPopMatrix();
     }
 }
+
+void display();
+void init();
+void keyboard(unsigned char key, int x, int y);
+void mouse(int button, int state, int x, int y);
+void animateMap(int);
+void reshape(int w, int h);
+
+int main(int argc, char** argv)
+{
+    glutInit(&argc, argv);
+    glutInitDisplayMode(GLUT_DOUBLE | GLUT_DEPTH | GLUT_RGBA );
+    glutInitWindowPosition(100,100);
+    glutInitWindowSize(800, 500);
+    glutCreateWindow("VoxelProject");
+    glutDisplayFunc(display);
+    glutReshapeFunc(reshape);
+    glutMouseFunc(mouse);
+    glutKeyboardFunc(keyboard);
+    glutTimerFunc(1,animateMap,0);
+    init();
+
+    glutMainLoop();
+    return 0;
+}
+
 void display()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
 
-    glTranslatef(cx,cy,cz);
-    glRotatef(a,1,0,0);
-    glTranslatef(10,0,10);
-    glRotatef(theta,0,1,0);
-    glScalef(zf, zf, zf);
-    glTranslatef(-10,0,-10);
-
-
+    camera.display();
     //drawGrid();
     heightMap.drawLines();
     //drawVoxel();
@@ -148,14 +152,12 @@ void init()
 
 void keyboard(unsigned char key, int x, int y)
 {
-    if(key=='w'){cz+=1;} if(key=='s'){cz-=1;}
-    if(key=='a'){cx+=1;} if(key=='d'){cx-=1;}
-    if(key=='q'){cy-=1;} if(key=='z'){cy+=1;}
-    if(key=='e'){a+=5;} if(key=='c'){a-=5;}
-    if(key=='.'){theta+=2;}
-    if(key==','){theta-=2;}
-    if(key=='p' && !pause){pause=true;}
-    else if(key=='p' && pause){pause=false; glutTimerFunc(10,animateVoxel,0);}
+    if(key=='w'){camera.translate(0,0,1);} if(key=='s'){camera.translate(0,0,-1);}
+    if(key=='a'){camera.translate(1,0,0);} if(key=='d'){camera.translate(-1,0,0);}
+    if(key=='q'){camera.translate(0,-1,0);} if(key=='z'){camera.translate(0,1,0);}
+
+    if(key=='e'){camera.rotate(2,0,0);}    if(key=='c'){camera.rotate(-2,0,0);}
+    if(key=='.'){camera.rotate(0,2,0);}    if(key==','){camera.rotate(0,-2,0);}
 
     glutPostRedisplay();
 }
@@ -166,8 +168,8 @@ void mouse(int button, int state, int x, int y)
     {
         if(state == GLUT_UP) return;
         printf("Scroll %s At %d %d\n", (button == 3) ? "Up" : "Down", x, y); //print information
-        (button == 3) ? zf *= 1.1 : zf *= .9;
-        cout << zf;
+        (button == 3) ? camera.zoom(1.1) : camera.zoom(0.9);
+
     } else {
         printf("Button %s At %d %d\n", (state == GLUT_DOWN) ? "Down" : "Up", x, y);
     }
@@ -187,21 +189,14 @@ void mouse(int button, int state, int x, int y)
     glutPostRedisplay();
 }
 
-
-int main(int argc, char** argv)
+void animateMap(int)
 {
-    glutInit(&argc, argv);
-    glutInitDisplayMode(GLUT_DOUBLE | GLUT_DEPTH );
-    glutInitWindowSize(800, 600);
-    glutCreateWindow("");
-    glutDisplayFunc(display);
-    glutMouseFunc(mouse);
-    glutKeyboardFunc(keyboard);
-    glutTimerFunc(1,animateMap,0);
-    init();
-
-    glutMainLoop();
-    return 0;
+    heightMap.animate();
+    glutPostRedisplay();
+    glutTimerFunc(17,animateMap,0);
 }
 
-
+void reshape(int w, int h)
+{
+    glViewport(0 , 0 , w , h);
+}

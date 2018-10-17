@@ -1,7 +1,6 @@
 #ifndef MAP_H
 #define MAP_H
-#include <GL/glut.h>
-#include <math.h>
+
 
 class map
 {
@@ -11,6 +10,7 @@ class map
         void drawLines(void);
         void drawCubes(void);
         void animate(void);
+        void animateSlow(void);
         ~map(void);
 
     protected:

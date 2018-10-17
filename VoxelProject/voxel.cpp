@@ -1,7 +1,5 @@
 #include "voxel.h"
-
-struct Cube {
-};
+#include <GL/glut.h>
 
 voxel::voxel()
 {
@@ -10,5 +8,5 @@ voxel::voxel()
 
 voxel::~voxel()
 {
-    //dtor
+
 }
