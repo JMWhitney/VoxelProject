@@ -7,13 +7,9 @@
 #include <math.h>
 
 /*******************To Do List ******************
-    > Create octree data structure to store voxel data
-    > Optimize code.
-    > Test different storage methods (data structures) for voxel data.
-        To increase efficiency I want to be updating only the blocks of the voxel
-        that I need to each frame loop.
-    > Create a list of hard coded animations for the cube
-    > Create a user interface? (select animation)
+        -Add user interface
+        -Add ability to read/write data from a file
+        -Add ability to modify contents of the program
 ***********************************************/
 
 using namespace std;
@@ -135,7 +131,7 @@ void display()
 
     camera.display();
     //drawGrid();
-    heightMap.drawLines();
+    heightMap.drawPoly();
     //drawVoxel();
     glutSwapBuffers();
 }

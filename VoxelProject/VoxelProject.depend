@@ -10,10 +10,10 @@
 
 1341010370 c:\program files (x86)\codeblocks\mingw\include\_mingw.h
 
-1426376040 c:\program files (x86)\codeblocks\mingw\include\gl\glut.h
+1529370508 c:\program files (x86)\codeblocks\mingw\include\gl\glut.h
 	"freeglut_std.h"
 
-1437583542 c:\program files (x86)\codeblocks\mingw\include\gl\freeglut_std.h
+1529370508 c:\program files (x86)\codeblocks\mingw\include\gl\freeglut_std.h
 	<windows.h>
 	<EGL/egl.h>
 	<GLES/gl.h>
@@ -253,22 +253,30 @@
 
 1538011934 c:\users\batman\desktop\programming\3d graphics\voxel.h
 
-1539682726 source:c:\users\batman\desktop\programming\voxelproject\glmain.cpp
+1540080147 source:c:\users\batman\desktop\programming\voxelproject\glmain.cpp
 	<iostream>
 	<stdio.h>
 	"map.h"
-
-1538036635 source:c:\users\batman\desktop\programming\voxelproject\voxel.cpp
-	"voxel.h"
-
-1538017140 c:\users\batman\desktop\programming\voxelproject\voxel.h
-
-1539662010 c:\users\batman\desktop\programming\voxelproject\map.h
-	<GL/glut.h>
+	"camera.h"
+	<GL/freeglut.h>
+	<GL/glu.h>
 	<math.h>
 
-1539671185 source:c:\users\batman\desktop\programming\voxelproject\map.cpp
+1539827767 source:c:\users\batman\desktop\programming\voxelproject\voxel.cpp
+	"voxel.h"
+	<GL/glut.h>
+
+1539840811 c:\users\batman\desktop\programming\voxelproject\voxel.h
+
+1540033687 c:\users\batman\desktop\programming\voxelproject\map.h
+
+1540080158 source:c:\users\batman\desktop\programming\voxelproject\map.cpp
 	"map.h"
+	<GL/glut.h>
+	<math.h>
+	<ctime>
+	<iostream>
+	<time.h>
 
 1539815842 source:c:\users\addison\desktop\voxelproject-master\voxelproject\glmain.cpp
 	<iostream>
@@ -309,10 +317,16 @@
 	<_mingw.h>
 	<stddef.h>
 
-1426376040 c:\program files (x86)\codeblocks\mingw\include\gl\freeglut.h
+1529370508 c:\program files (x86)\codeblocks\mingw\include\gl\freeglut.h
 	"freeglut_std.h"
 	"freeglut_ext.h"
 
-1426376040 c:\program files (x86)\codeblocks\mingw\include\gl\freeglut_ext.h
+1529370508 c:\program files (x86)\codeblocks\mingw\include\gl\freeglut_ext.h
 	<stdarg.h>
+
+1539827767 source:c:\users\batman\desktop\programming\voxelproject\camera.cpp
+	"camera.h"
+	<GL/glut.h>
+
+1539827767 c:\users\batman\desktop\programming\voxelproject\camera.h
 

@@ -9,6 +9,7 @@ class map
         void init(void);
         void drawLines(void);
         void drawCubes(void);
+        void drawPoly(void);
         void animate(void);
         void animateSlow(void);
         ~map(void);
@@ -17,6 +18,7 @@ class map
 
     private:
 
+        float noise(int x, int y);
         int length;
         int width;
         int maxHeight;

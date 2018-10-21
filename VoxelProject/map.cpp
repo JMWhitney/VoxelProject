@@ -2,7 +2,8 @@
 #include <GL/glut.h>
 #include <math.h>
 #include <iostream>
-#include <time.h>
+#include <fstream>
+
 
 using namespace std;
 
@@ -13,7 +14,7 @@ map::map(int length, int width, int maxHeight, int minHeight) :
         minHeight{minHeight}
 {
     //calculate max height differential
-    if ((maxHeight - minHeight) == 0) {size = 1;} //Need this so there isn't a division by 0 error in draw
+    if ((maxHeight - minHeight) == 0) {size = 1;} //Need this so there can't be a division by 0 error in draw
     else {size = maxHeight -  minHeight;}
 
     //Dynamically create an array of pointers that point to sub-arrays
@@ -45,6 +46,12 @@ void map::init(void)
     }
 }
 
+float map::noise(int x, int y)
+{
+    //Unused at this time
+
+}
+
 void map::drawLines(void)
 {
     //Iterate through the contents of the heightmap,
@@ -57,7 +64,7 @@ void map::drawLines(void)
 
                 //create x-axis lines
                 glBegin(GL_LINES);
-                    glColor3f(1,0,1);
+                    glColor3f(0,0,1);
                     glLineWidth(1);
                     glVertex3f(i-1, height[i-1][j], j);
                     glVertex3f(i, height[i][j], j);
@@ -93,6 +100,32 @@ void map::drawCubes(void)
     }
 }
 
+void map::drawPoly(void)
+{
+    //Iterate through the map array, drawing triangular polygons with vertices specified by the heightmap array.
+    //Color them depending on the position in the array
+    for(int i = 1; i < length; i++) {
+        for(int j = 1; j < width; j++) {
+            glPushMatrix();
+                glBegin(GL_TRIANGLES);
+                    glColor3f(float(i)/length, float(j)/width, float(height[i][j])/(.25*size));
+                    glVertex3f(i-1, height[i-1][j-1], j-1);
+                    glVertex3f(i-1, height[i-1][j], j);
+                    glVertex3f(i,   height[i][j-1],   j-1);
+                glEnd();
+
+                glBegin(GL_TRIANGLES);
+                    glColor3f(float(i)/length, float(j)/width, float(height[i][j])/(.25*size));
+                    glVertex3f(i, height[i][j], j);
+                    glVertex3f(i-1, height[i-1][j], j);
+                    glVertex3f(i,   height[i][j-1],   j-1);
+                glEnd();
+            glPopMatrix();
+        }
+    }
+
+}
+
 void map::animateSlow(void)
 {
     static double offset = 0;
@@ -109,7 +142,7 @@ void map::animate(void)
 {
     //The difference between this function and animateSlow() is that
     //This function only calculates the mathematical function values
-    //For 1/4 of the array and mirrors the contents to the other quandrants.
+    //For 1/4 of the array and mirrors the contents to the other quadrants.
     //This speeds up the time it takes to load the array by a factor of  3.7 - 4.0.
     //This exploits the symmetry of the function itself. Further optimization may be possible.
 
