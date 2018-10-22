@@ -4,6 +4,7 @@
 camera::camera() :
                 //Initialization list
                 x{0.0} , y{0.0} , z{0.0},
+                vx{0.0}, vy{0.0}, vz{0.0},
                 xAngle{45.0} , yAngle{0.0}, zAngle{45.0},
                 zoomFactor{0.5}
 {
@@ -13,6 +14,7 @@ camera::camera() :
 camera::camera(float x, float y, float z, float xAngle, float yAngle, float zAngle, float zoomFactor) :
                 //Initialization list
                 x{x} , y{y} , z{z},
+                vx{0.0}, vy{0.0}, vz{0.0},
                 xAngle{xAngle} , yAngle{yAngle} , zAngle{zAngle},
                 zoomFactor{zoomFactor}
 {

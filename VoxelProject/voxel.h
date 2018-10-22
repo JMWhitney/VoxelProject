@@ -7,18 +7,25 @@ class voxel
 {
     public:
         voxel();
-      //  voxel(int size , float cubeSize , point3f);
-      //  void draw();
+        voxel(float x, float y, float z, int size, float cubeSize);
+        void draw();
+        void animateVoxel(int);
         ~voxel();
 
     protected:
 
     private:
 
-        int size;
-        float cubeSize;
-      //  point3f origin;
-        int*** arr;
+        //Origin location of the voxel
+        float x;
+        float y;
+        float z;
+
+        int size;           //Maximum size of the array
+        float cubeSize;     //Size of the individual cubes
+
+        //Array containing voxel information
+        bool*** arr;
 
 };
 

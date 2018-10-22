@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include "map.h"
 #include "camera.h"
+#include "voxel.h"
 #include <GL/freeglut.h>
 #include <GL/glu.h>
 #include <math.h>
@@ -14,73 +15,13 @@
 
 using namespace std;
 
-    bool pause = false;
-    float length = 1;
-    const int R = 10;
+    const int SCREEN_WIDTH = 1280, SCREEN_HEIGHT = 720;
+    const float ASPECT_RATIO = (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT;
 
-bool voxel[R][R][R];
-map heightMap(64,64,20,-20);
-camera camera(-25 , 0 , -32 , 45 , 45 , 0 , 0.185);
-//vec3 color = vec3(1.0,1.0,1.0);
-
-void initVoxel()
-{
-    for(int i = 0; i < R; i++) {
-        for(int j = 0; j < R; j++) {
-            for(int k = 0; k < R; k++) {
-                voxel[i][j][k] = false;
-            }
-        }
-    }
-}
-
-void animateVoxel(int)
-{
-    static bool ascending = true;
-    static int j = 0;
-
-    for(int i=0; i<R ; i++){
-        for(int k=0; k<R ; k++){
-            if(j<R && ascending){
-                voxel[i][j][k] = true;
-            } else if(j >= 0 && !ascending) {
-                voxel[i][j][k] = false;
-            }
-        }
-   }
-    if(j >= R){
-        ascending = false;
-    }
-    if(j <= 0){
-        ascending = true;
-    }
-    if(ascending == true){
-        j++;
-    } else{
-        j--;
-    }
-    cout << j << ", " << ascending << endl;
-    glutPostRedisplay();
-    if(!pause) {glutTimerFunc(100, animateVoxel,0);}
-}
-
-void drawVoxel()
-{
-    for(int i = 0; i < R; i++) {
-        for(int j = 0; j < R; j++) {
-            for(int k = 0; k < R; k++) {
-                if(voxel[i][j][k] == true) {
-                    glPushMatrix();
-                        glTranslatef(i,j,k);
-                        glRotatef(0,0,1,0);
-                        glColor4f(float(i)/R, float(j)/R, float(k)/R, .1);
-                        glutSolidCube(length);
-                    glPopMatrix();
-                }
-            }
-        }
-    }
-}
+map heightMap(128,128,20,-20);
+//camera camera(-25 , 0 , -32 , 45 , 45 , 0 , 0.185);
+camera camera(0 , 0 , -32 , 45 , 45 , 0, 0.185);
+voxel voxel(-15,-15,-15,10,2);
 
 void drawGrid()
 {
@@ -99,25 +40,27 @@ void drawGrid()
     }
 }
 
+
 void display();
 void init();
 void keyboard(unsigned char key, int x, int y);
 void mouse(int button, int state, int x, int y);
 void animateMap(int);
 void reshape(int w, int h);
+void CameraTranslate(int vx, int vy, int vz);
 
 int main(int argc, char** argv)
 {
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_DEPTH | GLUT_RGBA );
-    glutInitWindowPosition(100,100);
-    glutInitWindowSize(800, 500);
+    glutInitWindowPosition(0,0);
+    glutInitWindowSize(SCREEN_WIDTH, SCREEN_HEIGHT);
     glutCreateWindow("VoxelProject");
     glutDisplayFunc(display);
     glutReshapeFunc(reshape);
     glutMouseFunc(mouse);
     glutKeyboardFunc(keyboard);
-    glutTimerFunc(1,animateMap,0);
+    //glutTimerFunc(1,animateMap,0);
     init();
 
     glutMainLoop();
@@ -130,9 +73,11 @@ void display()
     glLoadIdentity();
 
     camera.display();
+
+    voxel.draw();
     //drawGrid();
-    heightMap.drawPoly();
-    //drawVoxel();
+    //heightMap.drawPoly();
+
     glutSwapBuffers();
 }
 
@@ -140,20 +85,21 @@ void init()
 {
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    gluPerspective(35,1.0f,0.1f,1000);
+    gluPerspective(90,ASPECT_RATIO,0.1f,1000);
     glMatrixMode(GL_MODELVIEW);
     glEnable(GL_DEPTH_TEST);
     glClearColor(0.0,0.0,0.0,1);
+    //glutSetCursor(GLUT_CURSOR_NONE); //Make Cursor invisible
 }
 
 void keyboard(unsigned char key, int x, int y)
 {
-    if(key=='w'){camera.translate(0,0,1);} if(key=='s'){camera.translate(0,0,-1);}
-    if(key=='a'){camera.translate(1,0,0);} if(key=='d'){camera.translate(-1,0,0);}
+    if(key=='w'){camera.translate(0,0,1);}  if(key=='s'){camera.translate(0,0,-1);}
+    if(key=='a'){camera.translate(1,0,0);}  if(key=='d'){camera.translate(-1,0,0);}
     if(key=='q'){camera.translate(0,-1,0);} if(key=='z'){camera.translate(0,1,0);}
 
-    if(key=='e'){camera.rotate(2,0,0);}    if(key=='c'){camera.rotate(-2,0,0);}
-    if(key=='.'){camera.rotate(0,2,0);}    if(key==','){camera.rotate(0,-2,0);}
+    if(key=='e'){camera.rotate(2,0,0);}     if(key=='c'){camera.rotate(-2,0,0);}
+    if(key=='.'){camera.rotate(0,2,0);}     if(key==','){camera.rotate(0,-2,0);}
 
     glutPostRedisplay();
 }
@@ -170,29 +116,23 @@ void mouse(int button, int state, int x, int y)
         printf("Button %s At %d %d\n", (state == GLUT_DOWN) ? "Down" : "Up", x, y);
     }
 
-    /* Drawing lines
-    if (button == GLUT_LEFT_BUTTON)
-    {
-        if(state == GLUT_DOWN)
-        {
-        dx = x;
-        dy = y;
-        cout << x << ',' << y << ' ';
-        addLinePoint();
-        }
-    }
-    */
     glutPostRedisplay();
 }
 
 void animateMap(int)
 {
-    heightMap.animate();
-    glutPostRedisplay();
+    //heightMap.animate();
     glutTimerFunc(17,animateMap,0);
+    glutPostRedisplay();
 }
 
 void reshape(int w, int h)
 {
-    glViewport(0 , 0 , w , h);
+    glViewport(0 , 0 , SCREEN_WIDTH , SCREEN_HEIGHT);
+}
+
+void CameraTranslate(int vx, int vy, int vz)
+{
+    camera.translate(vx,vy,vz);
+    //glutTimerFunc(17, CameraTranslate, 0);
 }

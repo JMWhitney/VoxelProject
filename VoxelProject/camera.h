@@ -23,6 +23,11 @@ class camera
         float y;
         float z;
 
+        //camera's xyz velocity vector
+        float vx;
+        float vy;
+        float vz;
+
         //Camera's up-down and left-right rotation angles
         float xAngle;
         float yAngle;

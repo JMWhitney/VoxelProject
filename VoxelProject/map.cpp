@@ -6,7 +6,6 @@
 
 
 using namespace std;
-
 map::map(int length, int width, int maxHeight, int minHeight) :
         length{length},
         width{width},
