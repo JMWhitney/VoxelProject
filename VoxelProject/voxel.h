@@ -1,15 +1,15 @@
 #ifndef VOXEL_H
 #define VOXEL_H
 
-
-
 class voxel
 {
     public:
         voxel();
         voxel(float x, float y, float z, int size, float cubeSize);
-        void draw();
+        void draw(void);
         void animateVoxel(int);
+        void place();
+        void save(void);
         ~voxel();
 
     protected:

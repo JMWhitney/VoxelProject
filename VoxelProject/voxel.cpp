@@ -1,6 +1,8 @@
 #include "voxel.h"
 #include <GL/glut.h>
 #include <iostream>
+#include <fstream>
+
 
 voxel::voxel()
 {
@@ -79,4 +81,9 @@ void voxel::animateVoxel(int)
     } else{
         j--;
     }
+}
+
+void save(void)
+{
+
 }

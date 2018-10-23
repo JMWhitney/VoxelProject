@@ -15,13 +15,14 @@
 
 using namespace std;
 
-    const int SCREEN_WIDTH = 1280, SCREEN_HEIGHT = 720;
-    const float ASPECT_RATIO = (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT;
+    int SCREEN_WIDTH = 1280;
+    int SCREEN_HEIGHT = 720;
+    float ASPECT_RATIO = (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT;
 
 map heightMap(128,128,20,-20);
 //camera camera(-25 , 0 , -32 , 45 , 45 , 0 , 0.185);
 camera camera(0 , 0 , -32 , 45 , 45 , 0, 0.185);
-voxel voxel(-15,-15,-15,10,2);
+//voxel voxel(-15,-15,-15,10,2);
 
 void drawGrid()
 {
@@ -60,8 +61,9 @@ int main(int argc, char** argv)
     glutReshapeFunc(reshape);
     glutMouseFunc(mouse);
     glutKeyboardFunc(keyboard);
-    //glutTimerFunc(1,animateMap,0);
+    glutTimerFunc(1,animateMap,0);
     init();
+
 
     glutMainLoop();
     return 0;
@@ -74,9 +76,9 @@ void display()
 
     camera.display();
 
-    voxel.draw();
+    //voxel.draw();
     //drawGrid();
-    //heightMap.drawPoly();
+    heightMap.drawPoly();
 
     glutSwapBuffers();
 }
@@ -106,7 +108,35 @@ void keyboard(unsigned char key, int x, int y)
 
 void mouse(int button, int state, int x, int y)
 {
-    if((button == 3 || button == 4))
+    //On mouse action a callback will be generated and this function will be called.
+    //What I want to do is be able to rotate the camera based on mouse input.
+
+    static float x1, y1, x2, y2, dx, dy, ax, ay;
+    if((button == GLUT_LEFT_BUTTON) && (state == GLUT_DOWN))
+    {
+        x1 = x;
+        y1 = y;
+        cout << x1 << ',' << y1 << endl;
+        return;
+    }
+
+    if((button == GLUT_LEFT_BUTTON) && (state == GLUT_UP))
+    {
+        x2 = x;
+        y2 = y;
+
+        //calculate camera angle rotation based on the difference of the starting and ending mouse coordinates
+        dx = x2 - x1;
+        dy = y2 - y1;
+        ax = 360 * dx / float(SCREEN_WIDTH);
+        ay = 180 * dy / float(SCREEN_HEIGHT);
+        camera.rotate(ay,ax,0);
+        cout << x2 << ',' << y2 << ',' << endl
+             << dx << ',' << dy << ',' << endl
+             << ax << ',' << ay << endl;
+
+    }
+    /*if((button == 3 || button == 4))
     {
         if(state == GLUT_UP) return;
         printf("Scroll %s At %d %d\n", (button == 3) ? "Up" : "Down", x, y); //print information
@@ -114,20 +144,26 @@ void mouse(int button, int state, int x, int y)
 
     } else {
         printf("Button %s At %d %d\n", (state == GLUT_DOWN) ? "Down" : "Up", x, y);
+
+
     }
+    */
 
     glutPostRedisplay();
 }
 
 void animateMap(int)
 {
-    //heightMap.animate();
+    heightMap.animate();
     glutTimerFunc(17,animateMap,0);
     glutPostRedisplay();
 }
 
 void reshape(int w, int h)
 {
+    SCREEN_WIDTH = w;
+    SCREEN_HEIGHT = h;
+    ASPECT_RATIO = (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT;
     glViewport(0 , 0 , SCREEN_WIDTH , SCREEN_HEIGHT);
 }
 

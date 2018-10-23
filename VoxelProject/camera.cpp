@@ -47,9 +47,10 @@ void camera::rotate(float ax, float ay, float az)
 
 void camera::display(void)
 {
-    glTranslatef(x,y,z);
     glRotatef(xAngle,1,0,0);
     glRotatef(yAngle,0,1,0);
     glRotatef(zAngle,0,0,1);
+    glTranslatef(x,y,z);
+
     glScalef(zoomFactor, zoomFactor, zoomFactor);
 }

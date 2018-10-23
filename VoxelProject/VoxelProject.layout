@@ -2,39 +2,39 @@
 <CodeBlocks_layout_file>
 	<FileVersion major="1" minor="0" />
 	<ActiveTarget name="Debug" />
-	<File name="GLmain.cpp" open="1" top="1" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="4596" topLine="145" />
-		</Cursor>
-	</File>
-	<File name="map.cpp" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="500" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="voxel.cpp" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="42" topLine="0" />
-		</Cursor>
-	</File>
 	<File name="camera.h" open="1" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="268" topLine="0" />
+			<Cursor1 position="551" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="voxel.h" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="map.cpp" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="152" topLine="0" />
+			<Cursor1 position="673" topLine="83" />
 		</Cursor>
 	</File>
-	<File name="map.h" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="map.h" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="183" topLine="0" />
+			<Cursor1 position="28" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="voxel.cpp" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="2116" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="voxel.h" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="232" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="GLmain.cpp" open="1" top="1" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="4306" topLine="127" />
 		</Cursor>
 	</File>
 	<File name="camera.cpp" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="931" topLine="21" />
+			<Cursor1 position="1131" topLine="24" />
 		</Cursor>
 	</File>
 </CodeBlocks_layout_file>
